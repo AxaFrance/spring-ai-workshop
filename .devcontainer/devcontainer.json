@@ -1,0 +1,26 @@
+{
+  "name": "Workshop Spring AI",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "vscjava.vscode-java-dependency",
+        "vscjava.vscode-maven",
+        "redhat.java"
+      ],
+      "settings": {
+        "editor.codeActionsOnSave": {
+          "source.organizeImports": true
+        }
+      }
+    }
+  },
+  "features": {
+    "docker-from-docker": "latest"
+  },
+  "forwardPorts": [11434, 6379],
+  "remoteUser": "vscode"
+}

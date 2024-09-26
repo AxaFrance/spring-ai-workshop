@@ -1,0 +1,38 @@
+image: gitpod/workspace-full
+
+ports:
+  - port: 6379
+  - port: 11434
+
+vscode:
+  extensions:
+    - vscjava.vscode-java-pack
+    - vscjava.vscode-java-dependency
+    - vscjava.vscode-maven
+    - redhat.java
+
+tasks:
+  - name: Config SDKMAN
+    command: |
+      echo "sdkman_auto_answer=true
+      sdkman_auto_complete=true
+      sdkman_auto_env=false
+      sdkman_beta_channel=false
+      sdkman_checksum_enable=true
+      sdkman_colour_enable=true
+      sdkman_curl_connect_timeout=7
+      sdkman_curl_max_time=10
+      sdkman_debug_mode=false
+      sdkman_insecure_ssl=false
+      sdkman_selfupdate_feature=false" > /home/gitpod/.sdkman/etc/config
+  - name: Install JDK 21
+    command: |
+      . /home/gitpod/.sdkman/bin/sdkman-init.sh && \
+      sdk install java
+  - name: Maven settings
+    command: |
+      cat /workspace/spring-ai-workshop/.mvn/settings.xml > /home/gitpod/.m2/settings.xml
+  - name: Install Ollama
+    command: docker run -d --name ollama -p 11434:11434 ollama/ollama:latest
+  - name: Install Redis
+    command: docker run -d --name redis -p 6379:6379 redis/redis-stack:latest

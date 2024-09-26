@@ -1,0 +1,24 @@
+services:
+  app:
+    container_name: javadev
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VARIANT: 21-jdk-bookworm
+    volumes:
+      - ..:/workspace:cached
+    network_mode: host
+    command: sleep infinity
+
+  ollama:
+    container_name: ollama
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+
+  redis:
+    container_name: redis
+    image: redis/redis-stack:latest
+    ports:
+      - "6379:6379"

@@ -1,0 +1,32 @@
+spring:
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+    #vectorstore:
+    #  redis:
+    #    uri: redis://localhost:6379
+    #    index: "default-index"
+    #    prefix: "default:"
+    #    initialize-schema: true
+  application:
+    name: LLM CLI
+  banner:
+    location: classpath:banner.txt
+  main:
+    log-startup-info: false
+  threads:
+    virtual:
+      enabled: true
+  shell:
+    interactive:
+      enabled: true
+    command:
+      history.enabled: false
+      script.enabled: false
+      version.enabled: false
+    theme:
+      name: default
+
+logging.level:
+  root: ERROR
+  org.jline: off

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns="http://maven.apache.org/SETTINGS/1.2.0"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 https://maven.apache.org/xsd/settings-1.2.0.xsd">
+
+    <!--<localRepository>Your own Repository</localRepository>-->
+
+    <pluginGroups/>
+    <proxies/>
+    <servers/>
+
+    <mirrors>
+        <mirror>
+            <id>maven-default-http-blocker</id>
+            <mirrorOf>external:http:*</mirrorOf>
+            <name>Pseudo repository to mirror external repositories initially using HTTP.</name>
+            <url>http://0.0.0.0/</url>
+            <blocked>true</blocked>
+        </mirror>
+        <mirror>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+        <mirror>
+            <id>spring-milestones</id>
+            <url>https://repo.spring.io/milestone</url>
+            <mirrorOf>spring-milestones</mirrorOf>
+        </mirror>
+    </mirrors>
+    <activeProfiles>
+        <activeProfile>dojo</activeProfile>
+    </activeProfiles>
+    <profiles>
+        <profile>
+            <id>dojo</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>central</id>
+                    <url>https://repo.maven.apache.org/maven2</url>
+                    <name>Central Repository</name>
+                </repository>
+                <repository>
+                    <id>spring-milestones</id>
+                    <url>https://repo.spring.io/milestone</url>
+                    <name>Spring Milestones</name>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+
+</settings>
