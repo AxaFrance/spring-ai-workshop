@@ -23,15 +23,15 @@ import java.util.stream.Stream;
 public class LLMService {
 
     private final ChatClient chatClient;
-    private final OllamaOptions options;
     private final SystemMessage systemMessage;
+    private final OllamaOptions options;
 
     public LLMService(ChatClient.Builder builder, @Value("classpath:/prompt-system.md") Resource promptSystem) {
         this.systemMessage = new SystemMessage(promptSystem);
         this.chatClient = builder.build();
         this.options = OllamaOptions.create()
                 .withModel("mistral:7b")
-                .withTemperature(0.8f);
+                .withTemperature(0.8);
     }
 
     private Stream<String> getResponse(final Message userMessage) {

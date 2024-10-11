@@ -17,6 +17,7 @@ In the LLMService constructor, set chatClient with the result of calling `build(
 
 ```java
 private final ChatClient chatClient;
+private final SystemMessage systemMessage;
 
 public LLMService(ChatClient.Builder builder, @Value("classpath:/prompt-system.md") Resource promptSystem) {
     this.systemMessage = new SystemMessage(promptSystem);
@@ -29,12 +30,12 @@ public LLMService(ChatClient.Builder builder, @Value("classpath:/prompt-system.m
 Update the `prompt-system.md` file in `src/main/resources` folder with the following content:
 
 ```markdown
-Please answer the question asked and provide the shortest possible response without extra text, using formal English language.
+Please answer the question asked and provide the shortest possible response without extra text nor line-breaks, using formal English language.
 ```
 
 ### Part 3 - Create query options object
 
-Create a `OllamaOptions` attribute and initialize it in the constructor by using `OllamaOptions.create()` method and set model to `mistral:7b` and temperature to `0.8f`.
+Create a `OllamaOptions` attribute and initialize it in the constructor by using `OllamaOptions.create()` method and set model to `mistral:7b` and temperature to `0.8`.
 
 ### Part 4 - Implement the model query in streaming mode
 

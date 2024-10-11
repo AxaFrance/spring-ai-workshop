@@ -23,8 +23,8 @@ import java.util.stream.Stream;
 public class LLMService {
 
     private final ChatClient chatClient;
-    private final OllamaOptions options;
     private final SystemMessage systemMessage;
+    private final OllamaOptions options;
     private final List<Message> history;
     private final DataService dataService;
     private final PromptTemplate userPromptTemplate;
@@ -34,7 +34,7 @@ public class LLMService {
         this.chatClient = builder.build();
         this.options = OllamaOptions.create()
                 .withModel("mistral:7b")
-                .withTemperature(0.8f);
+                .withTemperature(0.8);
         this.history = new ArrayList<>();
         this.dataService = dataService;
         this.userPromptTemplate = new PromptTemplate("""

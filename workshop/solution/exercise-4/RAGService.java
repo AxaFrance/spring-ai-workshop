@@ -47,7 +47,7 @@ public class RAGService {
         Prompt prompt = new Prompt(List.of(systemMessage, message),
                 OllamaOptions.create()
                         .withModel("mistral:7b")
-                        .withTemperature(0.9f));
+                        .withTemperature(0.9));
 
         System.out.println("Preparing the answer...");
 
