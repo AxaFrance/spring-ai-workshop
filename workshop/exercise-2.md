@@ -76,13 +76,14 @@ Here are some key points:
 
 ### About LLM
 
-- Conversation history can only be provided as context in query
+- Conversation history can be provided as context in query
 - Token volume in limited for LLM input and there is a subject about how to compress history
 - Conversation history is the first step to use LLM with step-by-step reflexion approach as few shots prompting or CoT, ToT prompting that consists in splitting reflexion and chaining multiple queries
 
 ### About Spring AI
 
 - Spring AI provides some advisors classes to manage conversation history automatically (MessageChatMemoryAdvisor, PromptChatMemoryAdvisor, VectorStoreChatMemoryAdvisor)
+- Model Context Protocol (MCP) can be used to optimise conversation history management and solve token volume problem
 
 ### Next exercise
 

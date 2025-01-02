@@ -32,7 +32,7 @@ Add `DataService` attribute and set it in the constructor by injection from Spri
 
 ### Part 4 - Format query with context information
 
-Add `PromptTemplate` attribute and initialize it in the constructor by passing the following hard-coded instructions as the argument.
+Add `PromptTemplate` attribute called `userPromptTemplate` and initialize it in the constructor by passing the following hard-coded instructions as the argument.
 
 ```
 Answer the question based on this context: 
@@ -85,13 +85,14 @@ This simple action points some concepts:
 
 ### About LLM
 
-- Context is passed as user input to the model
+- Context can be passed as user input to the model
 - LLM is able to complete context information with knowledge from training (but it can generate hallucinations)
 - More the query is big, more the response time is long
 
 ### About Spring AI
 
 - Spring AI provides `PromptTemplate` class to easily integrate some parameters in preformatted prompt content (useful for prompt library implementation)
+- Model Context Protocol (MCP) is the best practice to provide context to the model
 
 ### Next exercise
 
