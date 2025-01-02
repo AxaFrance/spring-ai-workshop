@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.4</version>
+        <version>3.4.1</version>
         <relativePath/>
     </parent>
 
@@ -21,9 +21,9 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <spring-ai.version>1.0.0-M4</spring-ai.version>
-        <spring-shell.version>3.3.3</spring-shell.version>
-        <lombok.version>1.18.34</lombok.version>
+        <spring-ai.version>1.0.0-M5</spring-ai.version>
+        <spring-shell.version>3.4.0</spring-shell.version>
+        <lombok.version>1.18.36</lombok.version>
     </properties>
 
     <repositories>
