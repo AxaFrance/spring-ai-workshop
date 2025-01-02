@@ -57,6 +57,11 @@ private RAGDataService(VectorStore vectorStore,
 
 2. Complete the `extract()` method to read document with a new `TikaDocumentReader` object and return its content.
 
+```java
+final TikaDocumentReader reader = new TikaDocumentReader(document);
+return reader.get();
+```
+
 3. Complete the `transform()` method to chunk the document content with a new `TokenTextSplitter` object with the followings parameters and return the chunks.
 
 ```java
@@ -114,6 +119,10 @@ public RAGService(ChatClient.Builder builder, RAGDataService dataService, @Value
 Complete the `getResponse()` method.
 
 1. Call `getContextForQuestion` method on `dataService` attribute with the question as argument and store the result in a `context` variable.
+
+```java
+String context = dataService.getContextForQuestion(question);
+```
 
 2. Map the `context` and the `question` with the `promptTemplate` using `createMessage()` method.
 
