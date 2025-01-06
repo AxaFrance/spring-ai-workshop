@@ -13,16 +13,20 @@ Here are the instructions to run the workshop in GitHub Codespaces.
 
 ## Create the Codespace
 
-1. Go to https://codespaces.new/AxaFrance/spring-ai-workshop
+1. Fork the repository to your GitHub account
 
-2. Select the following options:
+2. Go to https://codespaces.new/<your GitHub Account>/spring-ai-workshop
+
+3. Select the following options:
    - Branch: main
    - Region: Europe West
-   - Machine type: 4-core 
+   - Machine type: 4-core
 
 ![](../images/options-codespace.png)
 
 3. The Codespace environment will be opened
+
+4. You can perform `git push` commands to save your work on your forked repository
 
 [Go back](../../README.md)
 

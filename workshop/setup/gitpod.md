@@ -13,9 +13,11 @@ Here are the instructions to run the workshop on GitPod.
 
 ## Create the GitPod Workspace
 
-1. Go to https://gitpod.io/#github.com/AxaFrance/spring-ai-workshop.git
+1. Fork the repository to your GitHub account
 
-2. Select the following options:
+2. Go to https://gitpod.io/#github.com/<your GitHub Account>/spring-ai-workshop.git
+
+3. Select the following options:
     - Repository: spring-ai-workshop
     - VS Code (Editor Browser)
     - Large (8 cores, 16GB RAM, 50GB storage)
@@ -23,6 +25,8 @@ Here are the instructions to run the workshop on GitPod.
 ![](../images/options-gitpod.png)
 
 3. The GitPod Workspace will be opened
+
+4. You can perform `git push` commands to save your work on your forked repository
 
 [Go back](../../README.md)
 
