@@ -10,6 +10,14 @@ Throughout this journey, we will understand the capabilities and limitations of 
 For the practical part, we will learn about Spring AI's chat completion features to interact with LLMs. Spring AI serves as an abstraction layer able to interact with several LLM providers. 
 For the workshop's purposes, we will use Ollama, a solution for running LLMs locally.
 
+## :gift: Quick start
+
+If you don't want to save your work, you can start the workshop directly in a cloud environment.
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=863368883&machine=standardLinux32gb&devcontainer_path=.devcontainer%2Fdevcontainer.json&location=WestEurope)
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io?autostart=true&editor=code&workspaceClass=g1-large#https://github.com/AxaFrance/spring-ai-workshop)
+
 ## :wrench: Environment setup
 
 - [GitHub Codespaces](workshop/setup/codespaces.md) (5min)
