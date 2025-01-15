@@ -3,6 +3,8 @@
 ## 2025-01-15
 
 - OllamaOptions use .builder() instead of create()
+- Refactor client creation (with options and system prompt)
+author : clement.giguel@axa.fr
 
 ## 2025-01-07
 

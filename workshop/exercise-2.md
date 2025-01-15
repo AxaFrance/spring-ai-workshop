@@ -36,22 +36,23 @@ private AssistantMessage appendToHistory(AssistantMessage assistantMessage) {
 In the `getResponse` method, modify the return statement to append the response content to the conversation history by using `stream().chatResponse()` and `appendToHistory` methods.
 
 ```java
-return chatClient.prompt(prompt).stream()
+return chatClient.prompt(prompt)
+            .options(options)
+            .stream()
             .chatResponse().toStream()
             .map(ChatResponse::getResults)
             .flatMap(List::stream)
             .map(Generation::getOutput)
             .map(this::appendToHistory)
-            .map(AssistantMessage::getContent);
+            .map(AssistantMessage::getText);
 ```
 
 ### Part 4 - Pass conversation history as context
 
-In the `getResponse`, add `history` list content to existing `messages` list (between system and user messages).
+In the `getResponse`, add `history` list content to existing `messages` list (before user message).
 
 ```java
 List<Message> messages = new ArrayList<>();
-messages.add(systemMessage);
 messages.addAll(history);
 messages.add(userMessage);
 ```

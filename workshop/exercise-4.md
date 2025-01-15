@@ -103,8 +103,9 @@ And instantiate `promptTemplate` attribute.
 
 ```java
 public RAGService(ChatClient.Builder builder, RAGDataService dataService, @Value("classpath:/prompt-system.md") Resource promptSystem) {
-    this.systemMessage = new SystemMessage(promptSystem);    
-    this.chatClient = builder.build();
+    this.chatClient = builder
+            .defaultSystem(promptSystem)
+            .build();
     this.dataService = dataService;
     promptTemplate = new PromptTemplate("""
                 Context:
@@ -133,20 +134,21 @@ Message message = promptTemplate.createMessage(Map.of("context", context, "quest
 3. Call the LLM with this block of code and return the response.
 
 ```java
-Prompt prompt = new Prompt(List.of(systemMessage, message), 
-                OllamaOptions.builder()
-                .model("mistral:7b")
-                .temperature(0.9)
-                .build());
+Prompt prompt = new Prompt(message);
+OllamaOptions options = OllamaOptions.builder()
+        .model("mistral:7b")
+        .temperature(0.9)
+        .build();
 
 System.out.println("Preparing the answer...");
                 
-return chatClient.prompt(prompt).stream()
+return chatClient.prompt(prompt).options(options)
+            .stream()
             .chatResponse().toStream()
             .map(ChatResponse::getResults)
             .flatMap(List::stream)
             .map(Generation::getOutput)
-            .map(AssistantMessage::getContent);
+            .map(AssistantMessage::getText);
 ```
 
 ## Solution

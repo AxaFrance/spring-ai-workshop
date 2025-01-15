@@ -23,13 +23,13 @@ import java.util.stream.Stream;
 public class LLMService {
 
     private final ChatClient chatClient;
-    private final SystemMessage systemMessage;
     private final OllamaOptions options;
     private final List<Message> history;
 
     public LLMService(ChatClient.Builder builder, @Value("classpath:/prompt-system.md") Resource promptSystem) {
-        this.systemMessage = new SystemMessage(promptSystem);
-        this.chatClient = builder.build();
+        this.chatClient = builder
+                .defaultSystem(promptSystem)
+                .build();
         this.options = OllamaOptions.builder()
                 .model("mistral:7b")
                 .temperature(0.8)
@@ -40,18 +40,19 @@ public class LLMService {
     private Stream<String> getResponse(final Message userMessage) {
 
         List<Message> messages = new ArrayList<>();
-        messages.add(systemMessage);
         messages.addAll(history);
         messages.add(userMessage);
-        
-        Prompt prompt = new Prompt(messages, options);
-        return chatClient.prompt(prompt).stream()
+
+        Prompt prompt = new Prompt(messages);
+        return chatClient.prompt(prompt)
+                .options(options)
+                .stream()
                 .chatResponse().toStream()
                 .map(ChatResponse::getResults)
                 .flatMap(List::stream)
                 .map(Generation::getOutput)
                 .map(this::appendToHistory)
-                .map(AssistantMessage::getContent);
+                .map(AssistantMessage::getText);
     }
 
     public Stream<String> askQuestion(final String question) {
