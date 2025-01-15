@@ -30,9 +30,10 @@ public class LLMService {
     public LLMService(ChatClient.Builder builder, @Value("classpath:/prompt-system.md") Resource promptSystem) {
         this.systemMessage = new SystemMessage(promptSystem);
         this.chatClient = builder.build();
-        this.options = OllamaOptions.create()
-                .withModel("mistral:7b")
-                .withTemperature(0.8);
+        this.options = OllamaOptions.builder()
+                .model("mistral:7b")
+                .temperature(0.8)
+                .build();
         this.history = new ArrayList<>();
     }
 

@@ -38,9 +38,10 @@ Please answer the question asked and provide the shortest possible response with
 Create a `OllamaOptions` attribute and initialize it in the constructor by using `OllamaOptions.create()` method and set model to `mistral:7b` and temperature to `0.8`.
 
 ```java
-this.options = OllamaOptions.create()
-                .withModel("mistral:7b")
-                .withTemperature(0.8);
+this.options = OllamaOptions.builder()
+                .model("mistral:7b")
+                .temperature(0.8)
+                .build();
 ```
 
 ### Part 4 - Implement the model query in streaming mode
