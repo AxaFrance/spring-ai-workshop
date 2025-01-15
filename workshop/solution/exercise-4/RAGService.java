@@ -45,9 +45,10 @@ public class RAGService {
         Message message = promptTemplate.createMessage(Map.of("context", context, "question", question));
 
         Prompt prompt = new Prompt(List.of(systemMessage, message),
-                OllamaOptions.create()
-                        .withModel("mistral:7b")
-                        .withTemperature(0.9));
+                OllamaOptions.builder()
+                        .model("mistral:7b")
+                        .temperature(0.9)
+                        .build());
 
         System.out.println("Preparing the answer...");
 
