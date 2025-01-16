@@ -67,7 +67,7 @@ If needed, the solution can be checked in the `solution/exercise-2` folder.
 2. Run the application
 3. In the application prompt, type `llm Give me 8 famous dishes from Japan`
 4. Check the response
-5. Try a new query `llm Classify them in cooked and raw categories`
+5. Try a new query `llm Classify them into categories with meat and without meat`
 6. Is the response better now ? (We hope so! ;)
 
 ## Conclusion
@@ -83,7 +83,7 @@ Here are some key points:
 
 ### About Spring AI
 
-- Spring AI provides some advisors classes to manage conversation history automatically (MessageChatMemoryAdvisor, PromptChatMemoryAdvisor, VectorStoreChatMemoryAdvisor)
+- Spring AI provides some advisors classes to manage conversation history automatically (see [bonus 1](bonus/bonus-1.md))
 - Model Context Protocol (MCP) can be used to optimise conversation history management and solve token volume problem
 
 ### Next exercise
