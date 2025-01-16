@@ -10,9 +10,9 @@ If you want to dig deeper, we provide you some resources to continue your learni
 
 ## Spring AI
 
-- [Reference documentation](https://docs.spring.io/spring-ai/reference/)
+- [Spring AI reference documentation](https://docs.spring.io/spring-ai/reference/)
+- [Spring AI MCP reference documentation](https://docs.spring.io/spring-ai-mcp/reference/)
 - [Guide on Spring Academy](https://spring.io/academy/guides/spring-ai)
-- [Josh Long's example](https://github.com/coffee-software-show/spring-ai)
 
 ## Ollama
 
@@ -23,7 +23,6 @@ If you want to dig deeper, we provide you some resources to continue your learni
 ## LLM
 
 - [Prompt Engineering guide](https://www.promptingguide.ai/)
-- [OpenAI Tokenizer utility](https://platform.openai.com/tokenizer)
-- [RAG paper](https://arxiv.org/pdf/2005.11401.pdf)
-- [Video Let's build GPT: from scratch, in code, spelled out.](https://youtu.be/kCc8FmEb1nY)
+- [TikTokenizer online](https://tiktokenizer.vercel.app/)
 - [OWASP Top 10 for LLM Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
+- [MCP Model Context Protocol](https://modelcontextprotocol.io/introduction)

@@ -7,10 +7,10 @@ LLM (Large Language Model) concept is widely used to build chatbots, question-an
 In this workshop, we will discover how to interact with a LLM as we craft a conversational agent step-by-step.
 Throughout this journey, we will understand the capabilities and limitations of LLMs, and explore prompt engineering techniques to elevate their standard behavior.
 
-For the practical part, we will learn about Spring AI's chat completion features to interact with LLMs. Spring AI serves as an abstraction layer able to interact with several LLM providers. 
+For the practical part, we will learn about Spring AI's chat completion features to interact with LLMs. Spring AI serves as an abstraction layer able to interact with several LLM providers.
 For the workshop's purposes, we will use Ollama, a solution for running LLMs locally.
 
-## :gift: Quick start
+## :sparkles: Quick start
 
 If you don't want to save your work, you can start the workshop directly in a cloud environment.
 
@@ -53,6 +53,7 @@ mvn spring-boot:run
 3. [Information extraction](workshop/exercise-3.md) (20min)
 4. [Retrieval Augmented Generation (RAG)](workshop/exercise-4.md) (30min)
 5. [Conclusion](workshop/conclusion.md)
+6. :gift: [Bonus](workshop/bonus.md)
 
 ## :star: Contributors
 
