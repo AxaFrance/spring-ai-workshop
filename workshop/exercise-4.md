@@ -192,7 +192,7 @@ Here are some points to remember about this exercise:
 
 - Spring AI provides complete ETL process solution to handle many types of documents
 - Spring AI provides vector databases abstraction API
-- Spring AI provides QuestionAnswerAdvisor class that implements data retrieval from vector store and context preparation 
+- Spring AI provides QuestionAnswerAdvisor class that implements data retrieval from vector store and context preparation (for practice, see [bonus 2](bonus/bonus-2.md))
 
 ### End of workshop
 

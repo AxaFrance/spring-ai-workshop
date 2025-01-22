@@ -10,8 +10,8 @@ Modify the `LLMService` class.
 
 We will remove a few elements that are used to manually implement conversational history.
 
-- Remove the history attribute and all of its usages.
-- Remove the appendToHistory() method and all of its usages.
+- Remove the `history` attribute and all of its usages.
+- Remove the `appendToHistory()` method and all of its usages.
 
 ### Part 2 - Register MessageChatMemoryAdvisor
 

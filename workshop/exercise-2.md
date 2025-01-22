@@ -83,7 +83,7 @@ Here are some key points:
 
 ### About Spring AI
 
-- Spring AI provides some advisors classes to manage conversation history automatically (see [bonus 1](bonus/bonus-1.md))
+- Spring AI provides some advisors classes to manage conversation history automatically (for practice, see [bonus 1](bonus/bonus-1.md))
 - Model Context Protocol (MCP) can be used to optimise conversation history management and solve token volume problem
 
 ### Next exercise
