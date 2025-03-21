@@ -2,7 +2,6 @@ package fr.axa.dojo.llm.services;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.Message;
-import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.model.Generation;
@@ -22,7 +21,6 @@ public class RAGService {
 
     private RAGDataService dataService;
     private ChatClient chatClient;
-    private SystemMessage systemMessage;
     private PromptTemplate promptTemplate;
 
     public Stream<String> getResponse(final String question) {

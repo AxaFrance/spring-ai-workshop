@@ -26,7 +26,7 @@ public class LLMService {
     }
 
     private Stream<String> getResponse(final Message userMessage) {
-        return Stream.of("LLM response for: " + userMessage.getContent());
+        return Stream.of("LLM response for: " + userMessage.getText());
     }
 
     public Stream<String> askQuestion(final String question) {

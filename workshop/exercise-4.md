@@ -86,9 +86,11 @@ Still in the `RAGDataService` class, complete the `getContextForQuestion()` meth
 
 ```java
 public String getContextForQuestion(String question) {
-    List<String> chunks = vectorStore.similaritySearch(question)
-                            .stream()
-                            .map(Document::getContent).toList();
+   List<String> chunks = Optional.ofNullable(vectorStore.similaritySearch(question))
+           .orElse(Collections.emptyList())
+           .stream()
+           .map(Document::getText)
+           .toList();
     System.out.println(chunks.size() + " chunks found");
     return String.join("\n", chunks);
 }
