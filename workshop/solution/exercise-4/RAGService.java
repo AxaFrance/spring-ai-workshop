@@ -2,7 +2,6 @@ package fr.axa.dojo.llm.services;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.Message;
-import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.model.Generation;

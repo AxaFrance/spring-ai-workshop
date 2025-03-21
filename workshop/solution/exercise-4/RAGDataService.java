@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RAGDataService {
@@ -56,9 +58,11 @@ public class RAGDataService {
     }
 
     public String getContextForQuestion(String question) {
-        List<String> chunks = vectorStore.similaritySearch(question)
-                .stream()
-                .map(Document::getContent).toList();
+        List<String> chunks = Optional.ofNullable(vectorStore.similaritySearch(question))
+            .orElse(Collections.emptyList())
+            .stream()
+            .map(Document::getText)
+            .toList();
         System.out.println(chunks.size() + " chunks found");
         return String.join("\n", chunks);
     }
