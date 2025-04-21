@@ -3,7 +3,6 @@ package fr.axa.dojo.llm.services;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.messages.Message;
-import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.model.Generation;
@@ -30,39 +29,21 @@ public class LLMService {
 
     public LLMService(ChatClient.Builder builder, @Value("classpath:/prompt-system.md") Resource promptSystem, DataService dataService) {
         this.chatClient = builder
-                .defaultSystem(promptSystem)
-                .build();
+            .defaultSystem(promptSystem)
+            .build();
         this.options = OllamaOptions.builder()
-                .model("mistral:7b")
-                .temperature(0.8)
-                .build();
+            .model("mistral:7b")
+            .temperature(0.1)
+            .build();
         this.history = new ArrayList<>();
         this.dataService = dataService;
         this.userPromptTemplate = new PromptTemplate("""
-                Answer the question based on this context:
-                {context}
-                
-                Question:
-                {question}
-                """);
-    }
-
-    private Stream<String> getResponse(final Message userMessage) {
-
-        List<Message> messages = new ArrayList<>();
-        messages.addAll(history);
-        messages.add(userMessage);
-        
-        Prompt prompt = new Prompt(messages);
-        return chatClient.prompt(prompt)
-                .options(options)
-                .stream()
-                .chatResponse().toStream()
-                .map(ChatResponse::getResults)
-                .flatMap(List::stream)
-                .map(Generation::getOutput)
-                .map(this::appendToHistory)
-                .map(AssistantMessage::getText);
+            Answer the question based on this context:
+            {context}
+            
+            Question:
+            {question}
+            """);
     }
 
     public Stream<String> askQuestion(final String question) {
@@ -71,11 +52,28 @@ public class LLMService {
         return getResponse(userMessage);
     }
 
+    private Stream<String> getResponse(final Message userMessage) {
+        List<Message> messages = new ArrayList<>();
+        messages.addAll(history);
+        messages.add(userMessage);
+
+        Prompt prompt = new Prompt(messages);
+        return chatClient.prompt(prompt)
+            .options(options)
+            .stream()
+            .chatResponse().toStream()
+            .map(ChatResponse::getResults)
+            .flatMap(List::stream)
+            .map(Generation::getOutput)
+            .map(this::appendToHistory)
+            .map(AssistantMessage::getText);
+    }
+
     public Stream<String> askQuestionAboutContext(final String question) {
         history.add(new UserMessage(question));
         Message userMessage = userPromptTemplate.createMessage(
-                Map.of("context", dataService.getDocumentContent(),
-                        "question", question));
+            Map.of("context", dataService.getDocumentContent(),
+                "question", question));
         return getResponse(userMessage);
     }
 

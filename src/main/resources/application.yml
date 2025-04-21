@@ -1,13 +1,15 @@
 spring:
+  #data:
+  #  redis:
+  #    url: redis://localhost:6379
   ai:
     ollama:
       base-url: http://localhost:11434
     #vectorstore:
     #  redis:
-    #    uri: redis://localhost:6379
-    #    index: "default-index"
-    #    prefix: "default:"
     #    initialize-schema: true
+    #    index-name: "default-index"
+    #    prefix: "default:"
   application:
     name: LLM CLI
   banner:

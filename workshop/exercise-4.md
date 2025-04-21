@@ -21,30 +21,34 @@ We will use ETL and transformers features from Sprint AI and Redis as a vector d
 
 Uncomment the following dependencies in the `pom.xml` file:
 
-- spring-ai-transformers-spring-boot-starter
-- spring-ai-tika-document-reader
-- spring-ai-redis
-- jedis
+- spring-ai-rag
+- spring-ai-pdf-document-reader
+- spring-ai-starter-vector-store-redis
 
 #### 2) Add Redis configuration variables
 
 Uncomment the following properties in the `application.yml` file to configure connection to Redis instance:
 
-```properties
+```yaml 
 spring:
+  data:
+    redis:
+      url: redis://localhost:6379
   ai:
     vectorstore:
       redis:
-        uri: redis://localhost:6379
-        index: "default-index"
-        prefix: "default:"
+         initialize-schema: true
+         index-name: "default-index"
+         prefix: "default:"
 ```
 
 #### 3) Implement the ETL process
 
 Modify the `RAGDataService` class to complete the ETL implementation.
 
-1. Add constructor that accepts `VectorStore` object and `Resource` annotated with `@Value("classpath:data/rental-general-conditions.pdf")` and set them to corresponding attributes.
+1. Add a `VectorStore` attribute called `vectorStore`
+
+2. Add constructor that accepts `VectorStore` object and `Resource` annotated with `@Value("classpath:data/rental-general-conditions.pdf")` and set them to corresponding attributes.
 
 ```java
 private RAGDataService(VectorStore vectorStore,
@@ -55,14 +59,14 @@ private RAGDataService(VectorStore vectorStore,
 }
 ```
 
-2. Complete the `extract()` method to read document with a new `TikaDocumentReader` object and return its content.
+3. Complete the `extract()` method to read document with a new `PagePdfDocumentReader` object and return its content.
 
 ```java
-final TikaDocumentReader reader = new TikaDocumentReader(document);
+PagePdfDocumentReader reader = new PagePdfDocumentReader(document);
 return reader.get();
 ```
 
-3. Complete the `transform()` method to chunk the document content with a new `TokenTextSplitter` object with the followings parameters and return the chunks.
+4. Complete the `transform()` method to chunk the document content with a new `TokenTextSplitter` object with the followings parameters and return the chunks.
 
 ```java
 TextSplitter textSplitter = 
@@ -76,7 +80,7 @@ TextSplitter textSplitter =
 return textSplitter.apply(documents);
 ```
 
-4. Complete the `load()` method to store the chunks in a vector database by calling `accept` method on `vectorStore` attribute.
+5. Complete the `load()` method to store the chunks in a vector database by calling `accept` method on `vectorStore` attribute.
 
 This ETL process will only be executed during application startup.
 
@@ -139,7 +143,7 @@ Message message = promptTemplate.createMessage(Map.of("context", context, "quest
 Prompt prompt = new Prompt(message);
 OllamaOptions options = OllamaOptions.builder()
         .model("mistral:7b")
-        .temperature(0.9)
+        .temperature(0.1)
         .build();
 
 System.out.println("Preparing the answer...");

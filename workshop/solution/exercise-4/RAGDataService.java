@@ -1,7 +1,7 @@
 package fr.axa.dojo.llm.services;
 
 import org.springframework.ai.document.Document;
-import org.springframework.ai.reader.tika.TikaDocumentReader;
+import org.springframework.ai.reader.pdf.PagePdfDocumentReader;
 import org.springframework.ai.transformer.splitter.TextSplitter;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.ai.vectorstore.VectorStore;
@@ -16,8 +16,8 @@ import java.util.Optional;
 @Service
 public class RAGDataService {
 
-    private VectorStore vectorStore;
-    private Resource document;
+    private final VectorStore vectorStore;
+    private final Resource document;
 
     private RAGDataService(VectorStore vectorStore,
                            @Value("classpath:data/rental-general-conditions.pdf")
@@ -34,20 +34,20 @@ public class RAGDataService {
 
     private List<Document> extract(final Resource document) {
         System.out.println("Extracting content from: " + document.getFilename());
-        TikaDocumentReader reader = new TikaDocumentReader(document);
+        PagePdfDocumentReader reader = new PagePdfDocumentReader(document);
         return reader.get();
     }
 
     private List<Document> transform(final List<Document> documents) {
         System.out.println("Transforming documents: " + documents.size());
         TextSplitter textSplitter =
-                new TokenTextSplitter(
-                        100,   // defaultChunkSize
-                        50,   // minChunkSizeChars
-                        20,   // minChunkLengthToEmbed
-                        100,  // maxNumChunks
-                        true  // keepSeparator
-                );
+            new TokenTextSplitter(
+                100,   // defaultChunkSize
+                50,   // minChunkSizeChars
+                20,   // minChunkLengthToEmbed
+                100,  // maxNumChunks
+                true  // keepSeparator
+            );
         return textSplitter.apply(documents);
     }
 

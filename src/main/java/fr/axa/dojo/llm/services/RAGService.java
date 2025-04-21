@@ -19,12 +19,45 @@ import java.util.stream.Stream;
 @Service
 public class RAGService {
 
-    private RAGDataService dataService;
-    private ChatClient chatClient;
-    private PromptTemplate promptTemplate;
+    private final RAGDataService dataService;
+    private final ChatClient chatClient;
+    private final PromptTemplate promptTemplate;
+
+    public RAGService(ChatClient.Builder builder, @Value("classpath:/prompt-system.md") Resource promptSystem, RAGDataService dataService) {
+        this.chatClient = builder
+            .defaultSystem(promptSystem)
+            .build();
+        this.dataService = dataService;
+        promptTemplate = new PromptTemplate("""
+                Answer the question based on this context:
+                {context}
+                
+                Question:
+                {question}
+                """);
+    }
 
     public Stream<String> getResponse(final String question) {
-        return Stream.of("RAG response for: " + question);
+
+        String context = dataService.getContextForQuestion(question);
+
+        Message message = promptTemplate.createMessage(Map.of("context", context, "question", question));
+
+        Prompt prompt = new Prompt(message);
+        OllamaOptions options = OllamaOptions.builder()
+            .model("mistral:7b")
+            .temperature(0.1)
+            .build();
+
+        System.out.println("Preparing the answer...");
+
+        return chatClient.prompt(prompt).options(options)
+            .stream()
+            .chatResponse().toStream()
+            .map(ChatResponse::getResults)
+            .flatMap(List::stream)
+            .map(Generation::getOutput)
+            .map(AssistantMessage::getText);
     }
 
 }

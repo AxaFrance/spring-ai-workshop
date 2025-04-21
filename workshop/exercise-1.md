@@ -33,12 +33,12 @@ Please answer the question asked and provide the shortest possible response with
 
 ### Part 3 - Create query options object
 
-Create a `OllamaOptions` attribute and initialize it in the constructor by using `OllamaOptions.builder()` method and build with model `mistral:7b` and temperature `0.8`.
+Create an `options` attribute typed with `OllamaOptions` and initialize it in the constructor by using `OllamaOptions.builder()` method and build with model `mistral:7b` and temperature `0.1`.
 
 ```java
 this.options = OllamaOptions.builder()
                 .model("mistral:7b")
-                .temperature(0.8)
+                .temperature(0.1)
                 .build();
 ```
 

@@ -42,7 +42,7 @@ public class LLMService {
                 .build();
         this.options = OllamaOptions.builder()
                 .model("mistral:7b")
-                .temperature(0.8)
+                .temperature(0.1)
                 .build();
         this.dataService = dataService;
         this.userPromptTemplate = new PromptTemplate("""
