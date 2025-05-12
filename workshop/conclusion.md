@@ -10,9 +10,13 @@ If you want to dig deeper, we provide you some resources to continue your learni
 
 ## Spring AI
 
-- [Spring AI reference documentation](https://docs.spring.io/spring-ai/reference/)
-- [Spring AI MCP reference documentation](https://docs.spring.io/spring-ai-mcp/reference/)
+- [Spring AI Project](https://spring.io/projects/spring-ai)
+- [Spring AI Reference Documentation](https://docs.spring.io/spring-ai/reference/)
+- [Spring AI Examples](https://github.com/spring-projects/spring-ai-examples)
+- [Spring AI MCP Reference Documentation](https://docs.spring.io/spring-ai-mcp/reference/)
 - [Guide on Spring Academy](https://spring.io/academy/guides/spring-ai)
+- [Blog post : Prompt Engineering Techniques with Spring AI](https://spring.io/blog/2025/04/14/spring-ai-prompt-engineering-patterns)
+- [Blog post : Building Effective Agents with Spring AI (Part 1)](https://spring.io/blog/2025/01/21/spring-ai-agentic-patterns)
 
 ## Ollama
 

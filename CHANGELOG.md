@@ -1,5 +1,24 @@
 # Changelog
 
+## 2025-04-23
+
+- Spring AI 1.0.0-M7 and associated breaking changes
+- Update documentation references
+author : clement.giguel@axa.fr
+
+## 2025-03-31
+
+### Bump
+
+- Spring AI 1.0.0-M6
+- SpringBoot 3.4.4
+author : clement.giguel@axa.fr
+
+## 2025-01-21
+
+Add Bonus exercise 1 : Conversational memory with Advisor
+author : clement.giguel@axa.fr
+
 ## 2025-01-15
 
 - OllamaOptions use .builder() instead of create()
