@@ -25,13 +25,10 @@ tasks:
       sdkman_debug_mode=false
       sdkman_insecure_ssl=false
       sdkman_selfupdate_feature=false" > /home/gitpod/.sdkman/etc/config
-  - name: Install JDK 21
+  - name: Install JDK 24
     command: |
       . /home/gitpod/.sdkman/bin/sdkman-init.sh && \
-      sdk install java
-  - name: Maven settings
-    command: |
-      cat /workspace/spring-ai-workshop/.mvn/settings.xml > /home/gitpod/.m2/settings.xml
+      sdk install java 24-zulu
   - name: Install Ollama
     command: docker run -d --name ollama -p 11434:11434 ollama/ollama:latest
   - name: Install Redis

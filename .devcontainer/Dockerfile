@@ -1,4 +1,4 @@
-ARG VARIANT="21-jdk-bookworm"
+ARG VARIANT="24-rc-jdk-bookworm"
 FROM mcr.microsoft.com/vscode/devcontainers/java:${VARIANT}
 
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \

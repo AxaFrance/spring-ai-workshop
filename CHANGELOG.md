@@ -2,7 +2,9 @@
 
 ## 2025-04-23
 
-- Spring AI 1.0.0-M7 and associated breaking changes
+- Spring AI 1.0.0 and associated breaking changes
+- SpringBoot 3.4.0
+- Java 24
 - Update documentation references
 author : clement.giguel@axa.fr
 
