@@ -48,13 +48,13 @@ docker start redis
 Build the application
 
 ```shell
-mvn -s .mvn/settings.xml clean install
+mvn clean install
 ```
 
 Run the application
 
 ```shell
-mvn -s .mvn/settings.xml spring-boot:run
+mvn spring-boot:run
 ```
 
 [Go back](../../README.md)

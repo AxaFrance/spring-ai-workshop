@@ -1,10 +1,10 @@
 package fr.axa.dojo.llm.services;
 
 import org.springframework.ai.document.Document;
-//import org.springframework.ai.reader.tika.TikaDocumentReader;
-import org.springframework.ai.transformer.splitter.TextSplitter;
-import org.springframework.ai.transformer.splitter.TokenTextSplitter;
-import org.springframework.ai.vectorstore.VectorStore;
+//import org.springframework.ai.reader.pdf.PagePdfDocumentReader;
+//import org.springframework.ai.transformer.splitter.TextSplitter;
+//import org.springframework.ai.transformer.splitter.TokenTextSplitter;
+//import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,6 @@ import java.util.Optional;
 @Service
 public class RAGDataService {
 
-    private VectorStore vectorStore;
     private Resource document;
 
     public void etl() {
@@ -39,6 +38,7 @@ public class RAGDataService {
 
     private void load(final List<Document> chunks) {
         System.out.println("Loading chunks: " + chunks.size());
+        System.out.println("It may take some time...");
         // TODO complete here
         System.out.println("Documents loaded");
     }

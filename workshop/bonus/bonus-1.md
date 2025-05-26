@@ -8,9 +8,9 @@ Modify the `LLMService` class.
 
 ### Part 1 - Remove history implementation
 
-We will remove a few elements that are used to manually implement conversational history.
+We will remove a few elements that are used to manually implement conversational memory.
 
-- Remove the history attribute and all of its usages.
+- Remove the memory attribute and all of its usages.
 - Remove the appendToHistory() method and all of its usages.
 
 ### Part 2 - Register MessageChatMemoryAdvisor
@@ -20,45 +20,33 @@ Add the following imports :
 ```java
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
-import org.springframework.ai.chat.memory.InMemoryChatMemory;
 ```
 
-In the constructor, create a new `ChatMemory` object instantiated with the `InMemoryChatMemory` implementation.
+In the constructor signature, add a new `ChatMemory` parameter.
 
-```java
-ChatMemory chatMemory = new InMemoryChatMemory();
-```
-
-Append a new default advisor `MessageChatMemoryAdvisor` to the existing `chatClient` builder.
+Append a default advisor from `MessageChatMemoryAdvisor.builder()` with wrapped `ChatMemory` object to the existing `chatClient` builder.
 
 ```java
 this.chatClient = builder
         .defaultSystem(promptSystem)
-        .defaultAdvisors(new MessageChatMemoryAdvisor(chatMemory))
+        .defaultAdvisors(MessageChatMemoryAdvisor.builder(chatMemory).build())
         .build();
 ```
 
-### Part 3 - Provide parameters to advisor 
+### Part 3 - Provide parameters to advisor
 
-Add the following static imports :
-
-```java
-import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
-import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_RETRIEVE_SIZE_KEY;
-```
-
-Provide parameters to advisor during the `chatClient` stream call:
-
-- `CHAT_MEMORY_CONVERSATION_ID_KEY` defines the ID of the conversation, which is useful for implementing real-world use cases with multiple users. For this exercise, we will use the hard-coded value "123".
-- `CHAT_MEMORY_RETRIEVE_SIZE_KEY` defines the size of the history window to retrieve and provides conversation extract as context.
+Define the ID of the conversation in advisor during the `chatClient` stream call with `ChatMemory.CONVERSATION_ID`.
+This is useful for implementing real-world use cases with multiple users. For this exercise, we will use the hard-coded value "123".
 
 ```java
-return chatClient.prompt(prompt)
-                .options(options)
-                .advisors(advisor -> advisor.param(CHAT_MEMORY_CONVERSATION_ID_KEY, "123")
-                        .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
-                .stream()
-                [...]
+private Stream<String> getResponse(final String question) {
+    return chatClient.prompt(question)
+            .options(options)
+            .advisors(advisor -> advisor.param(ChatMemory.CONVERSATION_ID, "123"))
+            .stream()
+            .content()
+            .toStream();
+}
 ```
 
 ## Solution
@@ -77,5 +65,5 @@ If needed, the solution can be checked in the `solution/bonus-1` folder.
 ## Conclusion
 
 In this exercise, we used the advisor approach to implement conversational memory feature.
-Note that this implementation is simple, and there are alternative implementations for `ChatMemory` and `AbstractChatMemoryAdvisor`.
+Note that this implementation is simple, and there are alternative implementations for `ChatMemory` and `MessageChatMemoryAdvisor`.
 Check [the documentation](https://docs.spring.io/spring-ai/reference/api/chatclient.html#_chat_memory) for more details.

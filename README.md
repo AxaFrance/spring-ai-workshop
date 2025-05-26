@@ -53,7 +53,10 @@ mvn spring-boot:run
 3. [Information extraction](workshop/exercise-3.md) (20min)
 4. [Retrieval Augmented Generation (RAG)](workshop/exercise-4.md) (30min)
 5. [Conclusion](workshop/conclusion.md)
-6. :gift: [Bonus](workshop/bonus.md)
+
+## :gift: Bonus / Best Practices
+
+1. [Conversational memory with Advisor](bonus/bonus-1.md) (10min)
 
 ## :star: Contributors
 
@@ -63,3 +66,6 @@ Maintainers:
 
 - Clément GIGUEL [:octocat:](https://github.com/clementgig)
 - Lamine DIAKHABY [:octocat:](https://github.com/DIAKHABY20)
+- Benoît CACCINOLO [:octocat:](https://github.com/bc-axa)
+- Oussama HMANI [:octocat:](https://github.com/OussamaHMANI)
+- Samir KERROUMI [:octocat:](https://github.com/samkerr4coding)

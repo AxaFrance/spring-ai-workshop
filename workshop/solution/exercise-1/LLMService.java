@@ -3,11 +3,7 @@ package fr.axa.dojo.llm.services;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.messages.Message;
-import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
-import org.springframework.ai.chat.model.ChatResponse;
-import org.springframework.ai.chat.model.Generation;
-import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.ollama.api.OllamaOptions;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,34 +27,25 @@ public class LLMService {
                 .build();
         this.options = OllamaOptions.builder()
                 .model("mistral:7b")
-                .temperature(0.8)
+                .temperature(0.1)
                 .build();
     }
 
-    private Stream<String> getResponse(final Message userMessage) {
-
-        List<Message> messages = new ArrayList<>();
-        messages.add(userMessage);
-
-        Prompt prompt = new Prompt(messages);
-        return chatClient.prompt(prompt)
+    private Stream<String> getResponse(final String question) {
+        return chatClient.prompt(question)
                 .options(options)
                 .stream()
-                .chatResponse().toStream()
-                .map(ChatResponse::getResults)
-                .flatMap(List::stream)
-                .map(Generation::getOutput)
-                .map(AssistantMessage::getText);
+                .content()
+                .toStream();
     }
 
     public Stream<String> askQuestion(final String question) {
-        Message userMessage = new UserMessage(question);
-        return getResponse(userMessage);
+        return getResponse(question);
     }
 
     public Stream<String> askQuestionAboutContext(final String question) {
         // TODO: Implement this method in exercise 3
-        return getResponse(new UserMessage(question));
+        return getResponse(question);
     }
 
 }

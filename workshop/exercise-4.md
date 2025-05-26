@@ -21,30 +21,46 @@ We will use ETL and transformers features from Sprint AI and Redis as a vector d
 
 Uncomment the following dependencies in the `pom.xml` file:
 
-- spring-ai-transformers-spring-boot-starter
-- spring-ai-tika-document-reader
-- spring-ai-redis
-- jedis
+- spring-ai-rag
+- spring-ai-pdf-document-reader
+- spring-ai-starter-vector-store-redis
 
-#### 2) Add Redis configuration variables
+#### 2) Configure Redis vector store
+
+Here are two prerequisites to start application with vector store connection:
+
+- Vector store running instance with accessible url (we will use localhost:6379)
+- EmbeddingModel instance that has to be the same as used LLM (we will enable Ollama embedding and use mistral:7b)
 
 Uncomment the following properties in the `application.yml` file to configure connection to Redis instance:
 
-```properties
+```yaml 
 spring:
+  data:
+    redis:
+      url: redis://localhost:6379
   ai:
+    ollama:
+       base-url: http://localhost:11434
+       embedding:
+          options:
+             model: mistral:7b
+    model:
+       embedding: ollama
     vectorstore:
       redis:
-        uri: redis://localhost:6379
-        index: "default-index"
-        prefix: "default:"
+         initialize-schema: true
+         index-name: "default-index"
+         prefix: "default:"
 ```
 
 #### 3) Implement the ETL process
 
 Modify the `RAGDataService` class to complete the ETL implementation.
 
-1. Add constructor that accepts `VectorStore` object and `Resource` annotated with `@Value("classpath:data/rental-general-conditions.pdf")` and set them to corresponding attributes.
+1. Add a `VectorStore` attribute called `vectorStore`
+
+2. Add constructor that accepts `VectorStore` object and `Resource` annotated with `@Value("classpath:data/rental-general-conditions.pdf")` and set them to corresponding attributes.
 
 ```java
 private RAGDataService(VectorStore vectorStore,
@@ -55,14 +71,14 @@ private RAGDataService(VectorStore vectorStore,
 }
 ```
 
-2. Complete the `extract()` method to read document with a new `TikaDocumentReader` object and return its content.
+3. Complete the `extract()` method to read document with a new `PagePdfDocumentReader` object and return its content.
 
 ```java
-final TikaDocumentReader reader = new TikaDocumentReader(document);
+PagePdfDocumentReader reader = new PagePdfDocumentReader(document);
 return reader.get();
 ```
 
-3. Complete the `transform()` method to chunk the document content with a new `TokenTextSplitter` object with the followings parameters and return the chunks.
+4. Complete the `transform()` method to chunk the document content with a new `TokenTextSplitter` object with the followings parameters and return the chunks.
 
 ```java
 TextSplitter textSplitter = 
@@ -76,9 +92,9 @@ TextSplitter textSplitter =
 return textSplitter.apply(documents);
 ```
 
-4. Complete the `load()` method to store the chunks in a vector database by calling `accept` method on `vectorStore` attribute.
+5. Complete the `load()` method to store the chunks in a vector database by calling `accept` method on `vectorStore` attribute.
 
-This ETL process will only be executed during application startup.
+This ETL process will be one-shot executed to populate the vector store.
 
 ### Part 2 - Implement the preparation of query context
 
@@ -110,7 +126,7 @@ public RAGService(ChatClient.Builder builder, RAGDataService dataService, @Value
             .build();
     this.dataService = dataService;
     promptTemplate = new PromptTemplate("""
-                Context:
+                Answer the question based on this context:
                 {context}
                 
                 Question:
@@ -121,36 +137,37 @@ public RAGService(ChatClient.Builder builder, RAGDataService dataService, @Value
 
 Complete the `getResponse()` method.
 
-1. Call `getContextForQuestion` method on `dataService` attribute with the question as argument and store the result in a `context` variable.
+1. Call `dataService.getContextForQuestion()` method with the question as argument and store the result in a `context` variable `String` typed.
 
 ```java
 String context = dataService.getContextForQuestion(question);
 ```
 
-2. Map the `context` and the `question` with the `promptTemplate` using `createMessage()` method.
+2. Map the `context` and the `question` using the `promptTemplate.createMessage().getText()` method.
 
 ```java
-Message message = promptTemplate.createMessage(Map.of("context", context, "question", question));
+String prompt = promptTemplate.createMessage(Map.of("context", context, "question", question)).getText();
 ```
 
-3. Call the LLM with this block of code and return the response.
+3. Set the model options (mistral:7b with temperature 0.1).
 
 ```java
-Prompt prompt = new Prompt(message);
 OllamaOptions options = OllamaOptions.builder()
-        .model("mistral:7b")
-        .temperature(0.9)
-        .build();
+            .model("mistral:7b")
+            .temperature(0.1)
+            .build();
+```
 
+4. Print a log and call the LLM and return the response.
+
+```java
 System.out.println("Preparing the answer...");
-                
-return chatClient.prompt(prompt).options(options)
-            .stream()
-            .chatResponse().toStream()
-            .map(ChatResponse::getResults)
-            .flatMap(List::stream)
-            .map(Generation::getOutput)
-            .map(AssistantMessage::getText);
+
+return chatClient.prompt(prompt)
+        .options(options)
+        .stream()
+        .content()
+        .toStream();
 ```
 
 ## Solution
