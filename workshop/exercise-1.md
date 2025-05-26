@@ -11,7 +11,8 @@ Modify the `LLMService` class.
 We will use a `ChatClient` object to interact with the LLM. This object can be built with `ChatClient.Builder` already instantiated thanks to autoconfiguration.
 
 Create a private final attribute `ChatClient` named `chatClient`.
-In the LLMService constructor, set `chatClient` with the result of calling `.defaultSystem(promptSystem).build()` on `builder`.
+Write the `LLMService` constructor with `ChatClient.Builder builder` and `@Value("classpath:/prompt-system.md") Resource promptSystem` parameters.
+Set `this.chatClient` with the result of calling `builder.defaultSystem(promptSystem).build()`.
 
 ```java
 private final ChatClient chatClient;
@@ -33,12 +34,12 @@ Please answer the question asked and provide the shortest possible response with
 
 ### Part 3 - Create query options object
 
-Create a `OllamaOptions` attribute and initialize it in the constructor by using `OllamaOptions.builder()` method and build with model `mistral:7b` and temperature `0.8`.
+In `LLMService` class, create an `options` attribute typed with `OllamaOptions` and initialize it in the constructor by using `OllamaOptions.builder()` method and build with model `mistral:7b` and temperature `0.1`.
 
 ```java
 this.options = OllamaOptions.builder()
                 .model("mistral:7b")
-                .temperature(0.8)
+                .temperature(0.1)
                 .build();
 ```
 
@@ -46,25 +47,16 @@ this.options = OllamaOptions.builder()
 
 Complete the existing `getResponse` method with the following steps:
 
-1. create a new `Prompt` object using `Prompt(List<Message> messages)` constructor. Pass the previously created object as argument.
-2. call `chatClient.stream` method by passing the `Prompt` object and the `options` attribute in builder pattern
-3. map and return `chatClient.stream` result
+1. call `.stream()` method by passing the `question` object and the `options` attribute through the `chatClient` builder pattern with `prompt()` and `options` methods.
+2. map and return `.content().toStream()` result
 
 ```java
-private Stream<String> getResponse(final Message userMessage) {
-
-    List<Message> messages = new ArrayList<>();
-    messages.add(userMessage);
-
-    Prompt prompt = new Prompt(messages);
-    return chatClient.prompt(prompt)
+private Stream<String> getResponse(final String question) {
+    return chatClient.prompt(question)
             .options(options)
             .stream()
-            .chatResponse().toStream()
-            .map(ChatResponse::getResults)
-            .flatMap(List::stream)
-            .map(Generation::getOutput)
-            .map(AssistantMessage::getText);
+            .content()
+            .toStream();
 }
 ```
 
@@ -89,16 +81,14 @@ In this first exercise, we implemented a simple prompt use case, and we understo
 
 ### About LLM
 
-- LLM handle different types of messages called "roles" (System, User, Assistant)
-- System role set the model overall behavior
-- User role provides the user input
+- System prompt set the model overall behavior
 - LLM does not automatically keep conversation history
 
 ### About Spring AI
 
 - Spring AI provides some classes and APIs to interact with LLM
 - Spring AI provides options that can be changed for each query to the LLM
-- Conversational memory is not handled by default
+- Conversational memory is not enabled by default
 
 ### Next exercise
 

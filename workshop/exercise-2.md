@@ -8,55 +8,47 @@ Modify the `LLMService` class.
 
 ### Part 1 - Add conversational memory receptacle
 
-Add `List<Message>` attribute called `history` and instantiate it in the constructor
+Add `List<Message>` attribute called `memory` and instantiate it in the constructor
 
-### Part 2 - Append question to history
+### Part 2 - Append question to memory
 
-In the `askQuestion` method, add user question to history before the return statement.
+In the `getResponse` method, add `question` wrapped in `UserMessage` object to `memory` before the return statement.
+Remove `question` object from `prompt()` builder method and call `messages()` builder method to give the `memory` object.
 
 ```java
-public Stream<String> askQuestion(final String question) {
-    Message userMessage = new UserMessage(question);
-    history.add(userMessage);
-    return getResponse(userMessage);
+import org.springframework.ai.chat.messages.UserMessage;
+
+private Stream<String> getResponse(final String question) {
+    memory.add(new UserMessage(question));
+    return chatClient.prompt()
+            .messages(memory)
+    ...
+```
+
+### Part 3 - Append assistant response to memory
+
+Create a new private method that will append the `response` (passed as argument), wrapped in `AssistantMessage` to `memory` and return the `response` object.
+
+```java
+import org.springframework.ai.chat.messages.AssistantMessage;
+
+private String appendToHistory(String response) {
+    memory.add(new AssistantMessage(response));
+    return response;
 }
 ```
 
-### Part 3 - Append assistant response to history
-
-Create a new private method that will append an `AssistantMessage` (passed as argument) to the history and return this `AssistantMessage`.
+In the `getResponse` method, modify the return statement to append the response content to the conversation memory by using `appendToHistory` method on the initially returned stream.
 
 ```java
-private AssistantMessage appendToHistory(AssistantMessage assistantMessage) {
-    history.add(assistantMessage);
-    return assistantMessage;
-}
-```
-
-In the `getResponse` method, modify the return statement to append the response content to the conversation history by using `stream().chatResponse()` and `appendToHistory` methods.
-
-```java
-return chatClient.prompt(prompt)
-            .options(options)
+private Stream<String> getResponse(final String question) {
+    ...
             .stream()
-            .chatResponse().toStream()
-            .map(ChatResponse::getResults)
-            .flatMap(List::stream)
-            .map(Generation::getOutput)
-            .map(this::appendToHistory)
-            .map(AssistantMessage::getText);
+            .content()
+            .toStream()
+            .map(this::appendToHistory);
+}
 ```
-
-### Part 4 - Pass conversation history as context
-
-In the `getResponse`, add `history` list content to existing `messages` list (before user message).
-
-```java
-List<Message> messages = new ArrayList<>();
-messages.addAll(history);
-messages.add(userMessage);
-```
-
 ## Solution
 
 If needed, the solution can be checked in the `solution/exercise-2` folder.
@@ -77,6 +69,7 @@ Here are some key points:
 
 ### About LLM
 
+- LLM handle different types of messages called "roles" (System, User, Assistant)
 - Conversation history can be provided as context in query
 - Token volume in limited for LLM input and there is a subject about how to compress history
 - Conversation history is the first step to use LLM with step-by-step reflexion approach as few shots prompting or CoT, ToT prompting that consists in splitting reflexion and chaining multiple queries
@@ -84,7 +77,7 @@ Here are some key points:
 ### About Spring AI
 
 - Spring AI provides some advisors classes to manage conversation history automatically (see [bonus 1](bonus/bonus-1.md))
-- Model Context Protocol (MCP) can be used to optimise conversation history management and solve token volume problem
+- Model Context Protocol (MCP) can be used to optimize conversation history management and solve token volume problem
 
 ### Next exercise
 

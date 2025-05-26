@@ -26,13 +26,13 @@ public String getDocumentContent() {
 
 Modify the `LLMService` class.
 
-### Part 3 - Access to data
+#### 1) Access to data
 
-Add `DataService` attribute and set it in the constructor by injection from Spring context.
+Create `DataService` attribute and set it in the constructor by injection from Spring context.
 
-### Part 4 - Format query with context information
+#### 2) Format query with context information
 
-Add `PromptTemplate` attribute called `userPromptTemplate` and initialize it in the constructor by passing the following hard-coded instructions as the argument.
+Create `PromptTemplate` attribute called `userPromptTemplate` and initialize it in the constructor by passing the following hard-coded instructions as the argument.
 
 ```
 Answer the question based on this context: 
@@ -42,21 +42,21 @@ Question:
 {question}
 ```
 
-### Part 5 - Implement the model query with context
+#### 3) Implement the model query with context
 
 Update `askQuestionAboutContext` method that will generate question from prompt template.
 
-1. Add `new UserMessage(question)` to history
-2. Set the existing `userMessage` object by calling `createMessage` method on `PromptTemplate` object with map as argument
-3. Return `getResponse` result with the `userMessage` object as argument
+1. Add `new UserMessage(question)` to memory
+2. Set a `prompt` object typed `Message` by calling `userPromptTemplate.createMessage()` method with map as argument
+3. Return `getResponse()` result with the `prompt.getText()` method result as parameter
 
 ```java
 public Stream<String> askQuestionAboutContext(final String question) {
-    history.add(new UserMessage(question));
-    Message userMessage = userPromptTemplate.createMessage(
+    memory.add(new UserMessage(question));
+    Message prompt = userPromptTemplate.createMessage(
             Map.of("context", dataService.getDocumentContent(),
                     "question", question));
-    return getResponse(userMessage);
+    return getResponse(prompt.getText());
 }
 ```
 
@@ -88,11 +88,12 @@ This simple action points some concepts:
 - Context can be passed as user input to the model
 - LLM is able to complete context information with knowledge from training (but it can generate hallucinations)
 - More the query is big, more the response time is long
+- Prompt injection is a risk to be aware of when using template
 
 ### About Spring AI
 
 - Spring AI provides `PromptTemplate` class to easily integrate some parameters in preformatted prompt content (useful for prompt library implementation)
-- Model Context Protocol (MCP) is the best practice to provide context to the model
+- Using prompt to provide context to the model could be clumsy and Model Context Protocol (MCP) is the best practice to do it
 
 ### Next exercise
 

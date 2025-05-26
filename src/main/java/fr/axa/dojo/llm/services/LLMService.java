@@ -3,11 +3,7 @@ package fr.axa.dojo.llm.services;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.messages.Message;
-import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
-import org.springframework.ai.chat.model.ChatResponse;
-import org.springframework.ai.chat.model.Generation;
-import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.ollama.api.OllamaOptions;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,18 +21,17 @@ public class LLMService {
     public LLMService() {
     }
 
-    private Stream<String> getResponse(final Message userMessage) {
-        return Stream.of("LLM response for: " + userMessage.getText());
+    private Stream<String> getResponse(final String question) {
+        return Stream.of("LLM response for: " + question);
     }
 
     public Stream<String> askQuestion(final String question) {
-        Message userMessage = new UserMessage(question);
-        return getResponse(userMessage);
+        return getResponse(question);
     }
 
     public Stream<String> askQuestionAboutContext(final String question) {
         // TODO: Implement this method in exercise 3
-        return getResponse(new UserMessage(question));
+        return getResponse(question);
     }
 
 }

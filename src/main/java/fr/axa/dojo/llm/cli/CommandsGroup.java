@@ -11,15 +11,21 @@ import org.springframework.shell.context.InteractionMode;
 import fr.axa.dojo.llm.services.LLMService;
 import fr.axa.dojo.llm.services.RAGDataService;
 import fr.axa.dojo.llm.services.RAGService;
-import lombok.RequiredArgsConstructor;
 
 @Command
-@RequiredArgsConstructor
 public class CommandsGroup {
 
     private final LLMService llmService;
     private final RAGService ragService;
     private final RAGDataService ragDataService;
+
+    public CommandsGroup(final LLMService llmService,
+                         final RAGService ragService,
+                         final RAGDataService ragDataService) {
+        this.llmService = llmService;
+        this.ragService = ragService;
+        this.ragDataService = ragDataService;
+    }
 
     @Command(command = "llm", interactionMode = InteractionMode.INTERACTIVE, description = "Interaction with LLM in stream mode")
     public void llm(@Option(arity = CommandRegistration.OptionArity.ZERO_OR_MORE) final String args) {
