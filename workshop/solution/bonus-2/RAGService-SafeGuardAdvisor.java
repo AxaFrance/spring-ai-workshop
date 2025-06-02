@@ -3,6 +3,7 @@ package fr.axa.dojo.llm.services;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.SafeGuardAdvisor;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
+import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.ollama.api.OllamaOptions;
 import org.springframework.ai.vectorstore.VectorStore;
@@ -22,10 +23,18 @@ public class RAGService {
     private final PromptTemplate promptTemplate;
 
     public RAGService(ChatClient.Builder builder, @Value("classpath:/prompt-system.md") Resource promptSystem, RAGDataService dataService) {
+        this.dataService = dataService;
+
+        List<String> forbiddenWords = List.of("Vehicle");
+
         this.chatClient = builder
                 .defaultSystem(promptSystem)
+                .defaultAdvisors(
+                        QuestionAnswerAdvisor.builder((dataService.getVectorStore())).build(),
+                        SafeGuardAdvisor.builder().sensitiveWords(forbiddenWords).build()
+                )
                 .build();
-        this.dataService = dataService;
+
         promptTemplate = new PromptTemplate("""
                 Answer the question based on this context:
                 {context}
@@ -48,15 +57,10 @@ public class RAGService {
 
         System.out.println("Preparing the answer...");
 
-        List<String> forbiddenWords = List.of("Vehicle");
-        SafeGuardAdvisor safeGuardAdvisor = new SafeGuardAdvisor(forbiddenWords);
-
         return chatClient.prompt(prompt)
-                .advisors(safeGuardAdvisor)
                 .options(options)
                 .stream()
                 .content()
                 .toStream();
     }
-
 }

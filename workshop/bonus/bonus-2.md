@@ -23,39 +23,38 @@ return vectorStore;
 }
 ```
 
-### Part 2 - Modify the getResponse method in client class RagService
+### Part 2 - Modify the Constructor method in client class RagService
 
 ```java
-public Stream<String> getResponse(final String question) {
+public RAGService(ChatClient.Builder builder, @Value("classpath:/prompt-system.md") Resource promptSystem, RAGDataService dataService) {
+    this.dataService = dataService;
 
-    String context = dataService.getContextForQuestion(question);
-
-    String prompt = promptTemplate.createMessage(Map.of("context", context, "question", question)).getText();
-
-    OllamaOptions options = OllamaOptions.builder()
-            .model("mistral:7b")
-            .temperature(0.1)
+    this.chatClient = builder
+            .defaultSystem(promptSystem)
+            .defaultAdvisors(
+                    QuestionAnswerAdvisor.builder((dataService.getVectorStore())).build()
+            )
             .build();
 
-    System.out.println("Preparing the answer...");
-
-    VectorStore vectorStore = dataService.getVectorStore();
-    QuestionAnswerAdvisor questionAnswerAdvisor = new QuestionAnswerAdvisor(vectorStore);
-
-    return chatClient.prompt(prompt)
-            .advisors(questionAnswerAdvisor)
-            .options(options)
-            .stream()
-            .content()
-            .toStream();
+    promptTemplate = new PromptTemplate("""
+            Answer the question based on this context:
+            {context}
+            
+            Question:
+            {question}
+            """);
 }
 ```
 
-Here we did juste declare a new QuestionAnswerAdvisor object and us it in the call
+Here we did juste declare a new QuestionAnswerAdvisor object and us it in the call.
+
+In RAG applications, we rely heavily on a QuestionAnswerAdvisor. This tool aids in crafting prompts that request 
+information grounded in a specific context. 
+The context is sourced from the vector store through a similarity search process.
 
 ## Solution Hands-on : QuestionAnswerAdvisor
 
-If needed, the solution can be checked in the `solution/exercise-4` folder.
+If needed, the solution can be checked in the `solution/bonus-2` folder.
 
 ## Time to ask LLM about our document !
 
@@ -74,12 +73,60 @@ If needed, the solution can be checked in the `solution/exercise-4` folder.
 
 ## Hands-on : SafeGuardAdvisor
 
+### Part 1 - Modify the getResponse method in client class RagService
 
+Let's assume on the current docuemnt pdf provided we would like to keep secret some part of the document.
 
+Let's restart after the QuestionAnswerAdvisor part and this time we will modifiy the constructor of RagService class this way :
+
+```java
+public RAGService(ChatClient.Builder builder, @Value("classpath:/prompt-system.md") Resource promptSystem, RAGDataService dataService) {
+    this.dataService = dataService;
+
+    List<String> forbiddenWords = List.of("Vehicle");
+
+    this.chatClient = builder
+            .defaultSystem(promptSystem)
+            .defaultAdvisors(
+                    QuestionAnswerAdvisor.builder((dataService.getVectorStore())).build(),
+                    SafeGuardAdvisor.builder().sensitiveWords(forbiddenWords).build()
+            )
+            .build();
+
+    promptTemplate = new PromptTemplate("""
+            Answer the question based on this context:
+            {context}
+            
+            Question:
+            {question}
+            """);
+}
+```
+
+The example is pretty dumb but the purpose is to demonstrate the SafeGuardAdvisor feature :
+    - Here we did juste declare the word "vehicle" as sesnitive 
+    - Consequently any query to the RAG engine involving a retieval of contxt that includes this word will be censored
+
+## Solution Hands-on : SafeGuardAdvisor
+
+If needed, the solution can be checked in the `solution/bonus-2` folder (RAGService-SafeGuardAdvisor).
+
+## Time to ask LLM about our document !
+
+### In this exercise, we will switch to the `rag` command to ask the model about documents content.
+
+1. Make sure that ollama container is running
+2. Make sure that redis container is running
+3. Run the application
+4. In the application prompt, type `etl` (just once) command to load data.
+5. In the application prompt, type `rag` command and ask a question about documents content. Here are some examples:
+    - `rag list the vehicles categories available for rent`
+    - The system should answer something like : **"I'm unable to respond to that due to sensitive content. Could we rephrase or discuss something else?"**
+6. Response can make time to be generated, please, be patient
 
 ## Hands-on : VectorStoreChatMemoryAdvisor
 
-
+pom.xml
 
 
 
