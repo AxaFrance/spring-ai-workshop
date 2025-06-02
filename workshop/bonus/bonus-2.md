@@ -127,6 +127,5 @@ If needed, the solution can be checked in the `solution/bonus-2` folder (RAGServ
 
 ## Conclusion
 
-In this exercise, we used the advisor approach to implement conversational memory feature.
-Note that this implementation is simple, and there are alternative implementations for `ChatMemory` and `MessageChatMemoryAdvisor`.
-Check [the documentation](https://docs.spring.io/spring-ai/reference/api/chatclient.html#_chat_memory) for more details.
+In this exercise, we used the advisor approach to implement conversational RAG feature.
+Check [the documentation](https://docs.spring.io/spring-ai/reference/api/advisors.html#_question_answering_advisor) for more details.
