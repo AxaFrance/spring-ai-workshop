@@ -30,7 +30,8 @@ Uncomment the following dependencies in the `pom.xml` file:
 Here are two prerequisites to start application with vector store connection:
 
 - Vector store running instance with accessible url (we will use localhost:6379)
-- EmbeddingModel instance that has to be the same as used LLM (we will enable Ollama embedding and use mistral:7b)
+- EmbeddingModel instance will rely on nomic embed text model running with ollama
+- LLM model is still phi4-mini:latest
 
 Uncomment the following properties in the `application.yml` file to configure connection to Redis instance:
 
@@ -44,7 +45,7 @@ spring:
        base-url: http://localhost:11434
        embedding:
           options:
-             model: mistral:7b
+             model: nomic-embed-text:latest
     model:
        embedding: ollama
     vectorstore:
@@ -149,11 +150,11 @@ String context = dataService.getContextForQuestion(question);
 String prompt = promptTemplate.createMessage(Map.of("context", context, "question", question)).getText();
 ```
 
-3. Set the model options (mistral:7b with temperature 0.1).
+3. Set the model options (phi4-mini:latest with temperature 0.1).
 
 ```java
 OllamaOptions options = OllamaOptions.builder()
-            .model("mistral:7b")
+            .model("phi4-mini:latest")
             .temperature(0.1)
             .build();
 ```

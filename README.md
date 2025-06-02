@@ -24,12 +24,20 @@ If you don't want to save your work, you can start the workshop directly in a cl
 - [GitPod](workshop/setup/gitpod.md) (5min)
 - [Local Hosting](workshop/setup/local.md) (15min)
 
-## :crystal_ball: Install Mistral 7B model
+## :crystal_ball: Install phi 4 mini model
 
 Execute this command only once to pull the model.
 
 ```shell
-docker exec -it ollama sh -c "ollama pull mistral:7b"
+docker exec -it ollama sh -c "ollama pull phi4-mini:latest"
+```
+
+:crystal_ball: Install nomic embed text embedding model
+
+Execute this command only once to pull the model.
+
+```shell
+docker exec -it ollama sh -c "ollama pull nomic-embed-text"
 ```
 
 ## :building_construction: Build the project

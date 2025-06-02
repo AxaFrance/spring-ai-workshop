@@ -34,11 +34,11 @@ Please answer the question asked and provide the shortest possible response with
 
 ### Part 3 - Create query options object
 
-In `LLMService` class, create an `options` attribute typed with `OllamaOptions` and initialize it in the constructor by using `OllamaOptions.builder()` method and build with model `mistral:7b` and temperature `0.1`.
+In `LLMService` class, create an `options` attribute typed with `OllamaOptions` and initialize it in the constructor by using `OllamaOptions.builder()` method and build with model `phi4-mini:latest` and temperature `0.1`.
 
 ```java
 this.options = OllamaOptions.builder()
-                .model("mistral:7b")
+                .model("phi4-mini:latest")
                 .temperature(0.1)
                 .build();
 ```

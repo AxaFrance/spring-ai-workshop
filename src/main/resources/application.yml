@@ -7,7 +7,7 @@ spring:
       base-url: http://localhost:11434
 #      embedding:
 #        options:
-#          model: mistral:7b
+#          model: nomic-embed-text
 #    model:
 #      embedding: ollama
 #    vectorstore:

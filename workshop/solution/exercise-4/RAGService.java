@@ -38,7 +38,7 @@ public class RAGService {
         String prompt = promptTemplate.createMessage(Map.of("context", context, "question", question)).getText();
 
         OllamaOptions options = OllamaOptions.builder()
-                .model("mistral:7b")
+                .model("phi4-mini:latest")
                 .temperature(0.1)
                 .build();
 

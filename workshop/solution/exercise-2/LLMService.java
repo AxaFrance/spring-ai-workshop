@@ -27,7 +27,7 @@ public class LLMService {
                 .defaultSystem(promptSystem)
                 .build();
         this.options = OllamaOptions.builder()
-                .model("mistral:7b")
+                .model("phi4-mini:latest")
                 .temperature(0.1)
                 .build();
         this.memory = new ArrayList<>();
