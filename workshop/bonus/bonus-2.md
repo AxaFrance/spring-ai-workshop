@@ -124,12 +124,6 @@ If needed, the solution can be checked in the `solution/bonus-2` folder (RAGServ
     - The system should answer something like : **"I'm unable to respond to that due to sensitive content. Could we rephrase or discuss something else?"**
 6. Response can make time to be generated, please, be patient
 
-## Hands-on : VectorStoreChatMemoryAdvisor
-
-pom.xml
-
-
-
 
 ## Conclusion
 
