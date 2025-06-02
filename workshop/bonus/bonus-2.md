@@ -8,12 +8,21 @@ We will implement :
 - SafeGuardAdvisor: Sometimes we must prevent certain sensitive words from being used in client prompts. 
      Undeniably, we can use SafeGuardAdvisor to achieve this by specifying a list of forbidden words and including them in the prompt’s advisor instance. 
      If any of these words are used in a search request, it’ll be rejected.
-- VectorStoreChatMemoryAdvisor
-    
+
+##  Project configuration:
+
+Uncomment this dependency in the pom.xml :
+
+```
+<dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-advisors-vector-store</artifactId>
+</dependency>
+```
 
 ## Hands-on : QuestionAnswerAdvisor
 
-Modify the `LLMService` class.
+Modify the `RAGDataService` class.
 
 ### Part 1 - Add a getter for the vectorestore in RagDataService 
 
@@ -70,12 +79,11 @@ If needed, the solution can be checked in the `solution/bonus-2` folder.
     - `rag how long is the maximum rental duration ?`
 6. Response can make time to be generated, please, be patient
 
-
 ## Hands-on : SafeGuardAdvisor
 
 ### Part 1 - Modify the getResponse method in client class RagService
 
-Let's assume on the current docuemnt pdf provided we would like to keep secret some part of the document.
+Let's assume on the current document pdf provided we would like to keep secret some part of the document.
 
 Let's restart after the QuestionAnswerAdvisor part and this time we will modifiy the constructor of RagService class this way :
 
@@ -104,8 +112,8 @@ public RAGService(ChatClient.Builder builder, @Value("classpath:/prompt-system.m
 ```
 
 The example is pretty dumb but the purpose is to demonstrate the SafeGuardAdvisor feature :
-    - Here we did juste declare the word "vehicle" as sesnitive 
-    - Consequently any query to the RAG engine involving a retieval of contxt that includes this word will be censored
+    - Here we did juste declare the word "vehicle" as sensitive 
+    - Consequently any query to the RAG engine involving a retrieval of context that includes this word will be censored
 
 ## Solution Hands-on : SafeGuardAdvisor
 
@@ -123,7 +131,6 @@ If needed, the solution can be checked in the `solution/bonus-2` folder (RAGServ
     - `rag list the vehicles categories available for rent`
     - The system should answer something like : **"I'm unable to respond to that due to sensitive content. Could we rephrase or discuss something else?"**
 6. Response can make time to be generated, please, be patient
-
 
 ## Conclusion
 
