@@ -66,6 +66,8 @@
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-starter-vector-store-redis</artifactId>
         </dependency>
+        -->
+        <!-- uncomment for Bonus 2 RAG exercise
         <dependency>
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-advisors-vector-store</artifactId>
