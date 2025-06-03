@@ -32,14 +32,6 @@ Execute this command only once to pull the model.
 docker exec -it ollama sh -c "ollama pull phi4-mini:latest"
 ```
 
-:crystal_ball: Install nomic embed text embedding model
-
-Execute this command only once to pull the model.
-
-```shell
-docker exec -it ollama sh -c "ollama pull nomic-embed-text"
-```
-
 ## :building_construction: Build the project
 
 Execute this command after code update.
