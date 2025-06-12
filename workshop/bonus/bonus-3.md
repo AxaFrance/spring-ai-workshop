@@ -19,36 +19,27 @@ Let's restart after the QuestionAnswerAdvisor part and this time we will modifiy
 public RAGService(ChatClient.Builder builder, @Value("classpath:/prompt-system.md") Resource promptSystem, RAGDataService dataService) {
     this.dataService = dataService;
 
-    List<String> forbiddenWords = List.of("Vehicle");
+    List<String> forbiddenWords = List.of("Vehicles");
 
     this.chatClient = builder
             .defaultSystem(promptSystem)
             .defaultAdvisors(
-                    QuestionAnswerAdvisor.builder((dataService.getVectorStore())).build(),
                     SafeGuardAdvisor.builder().sensitiveWords(forbiddenWords).build()
             )
             .build();
-
-    promptTemplate = new PromptTemplate("""
-            Answer the question based on this context:
-            {context}
-            
-            Question:
-            {question}
-            """);
 }
 ```
 
 The example is pretty dumb but the purpose is to demonstrate the SafeGuardAdvisor feature :
 - Here we did juste declare the word "vehicle" as sensitive
-- Consequently any query to the RAG engine involving a retrieval of context that includes this word will be censored.
+- Consequently, any query to the RAG engine involving a retrieval of context that includes this word will be censored.
 
 For the same reason that we saw in bonus 2 we don't have to deal with similarity search process and the addition of the context to the prompt,
 as this is natively supported.
 
 ## Solution Hands-on : SafeGuardAdvisor
 
-If needed, the solution can be checked in the `solution/bonus-2` folder (RAGService-SafeGuardAdvisor).
+If needed, the solution can be checked in the `solution/bonus-3` folder (RAGService-SafeGuardAdvisor).
 
 ## Time to ask LLM about our document !
 
@@ -66,5 +57,5 @@ If needed, the solution can be checked in the `solution/bonus-2` folder (RAGServ
 
 ## Conclusion
 
-In this exercise, we used the advisor approach to implement conversational RAG feature.
+In this exercise, we used the advisor approach to implement conversational RAG feature to demonstrate the SafeGuardAdvisor usage.
 Check [the documentation](https://docs.spring.io/spring-ai/reference/api/advisors.html#_question_answering_advisor) for more details.

@@ -102,3 +102,9 @@ If needed, the solution can be checked in the `solution/bonus-2` folder.
 6. Response can make time to be generated, please, be patient
 
 
+## Conclusion
+
+In this exercise, we used the advisor approach to implement conversational RAG feature to demonstrate the QuestionAnswerAdvisor usage.
+Check [the documentation](https://docs.spring.io/spring-ai/reference/api/advisors.html#_question_answering_advisor) for more details.
+
+
