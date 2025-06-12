@@ -58,16 +58,6 @@ public class RAGDataService {
         System.out.println("Documents loaded");
     }
 
-    public String getContextForQuestion(String question) {
-        List<String> chunks = Optional.ofNullable(vectorStore.similaritySearch(question))
-                .orElse(Collections.emptyList())
-                .stream()
-                .map(Document::getText)
-                .toList();
-        System.out.println(chunks.size() + " chunks found");
-        return String.join("\n", chunks);
-    }
-
     public VectorStore getVectorStore() {
         return vectorStore;
     }
