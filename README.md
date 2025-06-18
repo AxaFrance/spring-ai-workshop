@@ -57,8 +57,8 @@ mvn spring-boot:run
 ## :gift: Bonus / Best Practices
 
 1. [Conversational memory with Advisor](workshop/bonus/bonus-1.md) (10min)
-2. [Conversational memory based on vector store (QuestionAnswerAdvisor)](workshop/bonus/bonus-2.md) (10min)
-3. [Conversational memory based on vector store (SafeGuardAdvisor)](workshop/bonus/bonus-3.md) (10min)
+2. [RAG with Advisor (QuestionAnswerAdvisor)](workshop/bonus/bonus-2.md) (10min)
+3. [RAG and safe gard implementation with Advisor (SafeGuardAdvisor)](workshop/bonus/bonus-3.md) (10min)
 
 ## :star: Contributors
 
