@@ -1,4 +1,4 @@
-# Bonus 2 : Conversational memory with QuestionAnswerAdvisor
+# Bonus 2 : RAG with Advisor (QuestionAnswerAdvisor)
 
 This bonus is an extension of exercise 4 and aim at demonstrating how to make usage of advisors with RAG. 
 We will implement :
