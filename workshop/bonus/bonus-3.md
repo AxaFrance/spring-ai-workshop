@@ -1,4 +1,4 @@
-# Bonus 3 : Conversational memory with SafeGuardAdvisor
+# Bonus 3 : RAG and safe gard implementation with Advisor (SafeGuardAdvisor)
 
 This bonus is an extension of Bonus 2 and aim at demonstrating how to make usage of advisors with RAG.
 We will implement :
